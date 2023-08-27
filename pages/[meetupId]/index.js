@@ -21,23 +21,23 @@ function MeetupDetails(props) {
   );
 }
 
-export async function getStaticPaths() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://shyam041:Password786@cluster0.zvacp3l.mongodb.net/meetups?retryWrites=true&w=majority"
-  );
-  const db = client.db();
-  const meetupsCollection = db.collection("meetups");
-  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
-  client.close();
-  return {
-    fallback: "blocking",
-    paths: meetups.map((meetup) => ({
-      params: { meetupId: meetup._id.toString() },
-    })),
-  };
-}
+// export async function getStaticPaths() {
+//   const client = await MongoClient.connect(
+//     "mongodb+srv://shyam041:Password786@cluster0.zvacp3l.mongodb.net/meetups?retryWrites=true&w=majority"
+//   );
+//   const db = client.db();
+//   const meetupsCollection = db.collection("meetups");
+//   const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+//   client.close();
+//   return {
+//     fallback: "blocking",
+//     paths: meetups.map((meetup) => ({
+//       params: { meetupId: meetup._id.toString() },
+//     })),
+//   };
+// }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   // fetch data for a single meetup
   const meetupId = context.params.meetupId;
   const client = await MongoClient.connect(
